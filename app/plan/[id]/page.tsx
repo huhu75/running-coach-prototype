@@ -37,8 +37,8 @@ export default function PlanPage() {
     );
   if (!plan) return null;
 
-  const totalWorkouts = plan.semaines.reduce(
-    (acc: number, semaine) => acc + semaine.workouts.length,
+  const totalWorkouts = (plan.semaines || []).reduce(
+    (acc: number, semaine) => acc + (semaine.workouts?.length || 0),
     0
   );
 
@@ -67,7 +67,7 @@ export default function PlanPage() {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-slate-600">
-                Plan: {plan.objectif}
+                Plan: {plan.nom_objectif || plan.objectif || "Mon plan"}
               </span>
             </div>
           </div>
@@ -105,9 +105,11 @@ export default function PlanPage() {
                       })}
                     </p>
                   )}
-                  <p className="text-lg text-slate-600 mt-1">
-                    Plan d&apos;entrainement sur {plan.duree_semaines} semaines
-                  </p>
+                  {plan.duree_semaines && (
+                    <p className="text-lg text-slate-600 mt-1">
+                      Plan d&apos;entrainement sur {plan.duree_semaines} semaines
+                    </p>
+                  )}
                 </div>
               </motion.div>
 
@@ -123,12 +125,14 @@ export default function PlanPage() {
                     Niveau: <span className="text-indigo-600">{plan.niveau}</span>
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
-                  <Calendar className="h-4 w-4 text-indigo-500" />
-                  <span className="text-sm font-medium text-slate-700">
-                    {plan.seances_par_semaine} séances/semaine
-                  </span>
-                </div>
+                {plan.seances_par_semaine && (
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
+                    <Calendar className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm font-medium text-slate-700">
+                      {plan.seances_par_semaine} séances/semaine
+                    </span>
+                  </div>
+                )}
                 {plan.duree_semaines && (
                   <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
                     <Calendar className="h-4 w-4 text-indigo-500" />
