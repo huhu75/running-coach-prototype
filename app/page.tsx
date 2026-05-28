@@ -73,44 +73,14 @@ export default function Home() {
         />
 
         <div className="relative max-w-6xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="inline-flex items-center gap-2 mb-6 p-3 rounded-2xl bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20"
-            >
-              <div className="p-2 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600">
-                <Sparkles className="h-5 w-5 text-white" />
-              </div>
-              <span className="text-sm font-medium text-indigo-600">
-                Genere par IA - Mistral
-              </span>
-            </motion.div>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6"
           >
             Des plans d&apos;entrainement
-            <br />
-            <span className="gradient-text">100% personnalises</span>
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="max-w-2xl mx-auto text-lg text-slate-600 mb-8"
-          >
-            Cree par un coach IA qui s&apos;adapte a ton niveau, tes objectifs
-            et ton emploi du temps. Pret a courir plus malin ?
-          </motion.p>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
