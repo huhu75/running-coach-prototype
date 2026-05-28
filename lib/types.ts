@@ -1,7 +1,10 @@
 export type UserProfile = {
   level: "debutant" | "intermediaire" | "avance";
-  goal: string;
-  durationWeeks: number;
+  objectiveName: string;
+  targetDate: string;
+  sessionsPerWeek: number;
+  targetTime?: string; // Format: "HH:MM:SS" ou "MM:SS"
+  targetDistance?: number; // en km
   availability: string;
 };
 
@@ -27,6 +30,11 @@ export type TrainingPlan = {
   id: string;
   niveau: string;
   objectif: string;
+  date_objectif: string;
+  nom_objectif: string;
+  seances_par_semaine: number;
+  temps_cible?: string;
+  distance_cible?: number;
   duree_semaines: number;
   semaines: Week[];
   conseils: string[];

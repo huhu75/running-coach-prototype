@@ -61,11 +61,9 @@ export default function PlanPage() {
               >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
-              <Button variant="glass" size="icon" className="p-2 hidden sm:inline-flex" asChild>
-                <Link href="/">
-                  <Home className="h-5 w-5" />
-                </Link>
-              </Button>
+              <Link href="/" className="p-2 hidden sm:inline-flex">
+                <Home className="h-5 w-5" />
+              </Link>
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium text-slate-600">
@@ -96,8 +94,17 @@ export default function PlanPage() {
                 </div>
                 <div>
                   <h1 className="text-3xl sm:text-4xl font-bold text-slate-800">
-                    {plan.objectif}
+                    {plan.nom_objectif || plan.objectif}
                   </h1>
+                  {plan.date_objectif && (
+                    <p className="text-lg text-slate-600 mt-1">
+                      À atteindre le {new Date(plan.date_objectif).toLocaleDateString('fr-FR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </p>
+                  )}
                   <p className="text-lg text-slate-600 mt-1">
                     Plan d&apos;entrainement sur {plan.duree_semaines} semaines
                   </p>
@@ -119,15 +126,39 @@ export default function PlanPage() {
                 <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
                   <Calendar className="h-4 w-4 text-indigo-500" />
                   <span className="text-sm font-medium text-slate-700">
-                    {plan.duree_semaines} semaines
+                    {plan.seances_par_semaine} séances/semaine
                   </span>
                 </div>
+                {plan.duree_semaines && (
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
+                    <Calendar className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm font-medium text-slate-700">
+                      {plan.duree_semaines} semaines
+                    </span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
                   <Footprints className="h-4 w-4 text-indigo-500" />
                   <span className="text-sm font-medium text-slate-700">
-                    {totalWorkouts} seances
+                    {totalWorkouts} séances
                   </span>
                 </div>
+                {plan.distance_cible && (
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
+                    <Target className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm font-medium text-slate-700">
+                      Distance cible: {plan.distance_cible} km
+                    </span>
+                  </div>
+                )}
+                {plan.temps_cible && (
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200/50 shadow-sm">
+                    <Clock className="h-4 w-4 text-indigo-500" />
+                    <span className="text-sm font-medium text-slate-700">
+                      Temps cible: {plan.temps_cible}
+                    </span>
+                  </div>
+                )}
               </motion.div>
             </div>
 
@@ -137,17 +168,10 @@ export default function PlanPage() {
               transition={{ duration: 0.4, delay: 0.4 }}
               className="flex gap-3"
             >
-              <Button
-                variant="glass"
-                size="lg"
-                className="px-6 py-3 font-semibold"
-                asChild
-              >
-                <Link href="/">
-                  <Sparkles className="h-5 w-5 mr-2" />
-                  Nouveau plan
-                </Link>
-              </Button>
+              <Link href="/" className="inline-flex items-center px-6 py-3 font-semibold bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-xl hover:from-indigo-500/20 hover:to-purple-500/20 transition-all">
+                <Sparkles className="h-5 w-5 mr-2" />
+                Nouveau plan
+              </Link>
             </motion.div>
           </div>
         </motion.div>

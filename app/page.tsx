@@ -12,8 +12,11 @@ export default function Home() {
   const router = useRouter();
   const [profile, setProfile] = useState<UserProfile>({
     level: "debutant",
-    goal: "5km",
-    durationWeeks: 4,
+    objectiveName: "Courir 5 km",
+    targetDate: new Date(Date.now() + 8 * 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // Dans 8 semaines
+    sessionsPerWeek: 3,
+    targetTime: "",
+    targetDistance: 5,
     availability: "lundi, mercredi, samedi",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -171,33 +174,50 @@ export default function Home() {
                 </select>
               </motion.div>
 
+              {/* Nom de l'objectif */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.3, delay: 0.2 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
                 className="space-y-2"
               >
                 <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
                   <Target className="h-4 w-4 text-indigo-500" />
-                  Objectif principal
+                  Nom de l&apos;objectif
                 </label>
-                <select
-                  value={profile.goal}
-                  onChange={(e) => setProfile({ ...profile, goal: e.target.value })}
+                <input
+                  type="text"
+                  value={profile.objectiveName}
+                  onChange={(e) => setProfile({ ...profile, objectiveName: e.target.value })}
+                  placeholder="ex: Marathon de Paris 2025, 5km en 25 min, 10km"
                   className="w-full p-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-slate-50/50"
-                >
-                  <option value="5km" className="bg-white">Courir 5 km</option>
-                  <option value="10km" className="bg-white">Courir 10 km</option>
-                  <option value="semi-marathon" className="bg-white">Semi-marathon</option>
-                  <option value="marathon" className="bg-white">Marathon</option>
-                  <option value="perte-de-poids" className="bg-white">Perte de poids</option>
-                  <option value="endurance" className="bg-white">Ameliorer l&apos;endurance</option>
-                  <option value="vitesse" className="bg-white">Ameliorer la vitesse</option>
-                </select>
+                />
               </motion.div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Date d'objectif */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: 0.2 }}
+                  className="space-y-2"
+                >
+                  <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                    <Calendar className="h-4 w-4 text-indigo-500" />
+                    Date d&apos;objectif
+                  </label>
+                  <input
+                    type="date"
+                    value={profile.targetDate}
+                    onChange={(e) => setProfile({ ...profile, targetDate: e.target.value })}
+                    min={new Date().toISOString().split('T')[0]}
+                    className="w-full p-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-slate-50/50"
+                  />
+                </motion.div>
+
+                {/* Nombre de séances par semaine */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -206,26 +226,25 @@ export default function Home() {
                   className="space-y-2"
                 >
                   <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                    <Calendar className="h-4 w-4 text-indigo-500" />
-                    Duree
+                    <Footprints className="h-4 w-4 text-indigo-500" />
+                    Séances par semaine
                   </label>
-                  <div className="relative">
-                    <input
-                      type="number"
-                      min={4}
-                      max={12}
-                      value={profile.durationWeeks}
-                      onChange={(e) =>
-                        setProfile({ ...profile, durationWeeks: Number(e.target.value) })
-                      }
-                      className="w-full p-4 pr-12 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-slate-50/50"
-                    />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
-                      semaines
-                    </span>
-                  </div>
+                  <select
+                    value={profile.sessionsPerWeek}
+                    onChange={(e) => setProfile({ ...profile, sessionsPerWeek: Number(e.target.value) })}
+                    className="w-full p-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-slate-50/50"
+                  >
+                    <option value={2} className="bg-white">2 séances/semaine</option>
+                    <option value={3} className="bg-white">3 séances/semaine</option>
+                    <option value={4} className="bg-white">4 séances/semaine</option>
+                    <option value={5} className="bg-white">5 séances/semaine</option>
+                    <option value={6} className="bg-white">6 séances/semaine</option>
+                  </select>
                 </motion.div>
+              </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Distance cible */}
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -234,18 +253,72 @@ export default function Home() {
                   className="space-y-2"
                 >
                   <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                    <Target className="h-4 w-4 text-indigo-500" />
+                    Distance cible (km)
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      min={1}
+                      max={42}
+                      step={0.5}
+                      value={profile.targetDistance || ''}
+                      onChange={(e) => setProfile({ 
+                        ...profile, 
+                        targetDistance: e.target.value ? Number(e.target.value) : undefined 
+                      })}
+                      placeholder="ex: 5, 10, 21.1, 42.2"
+                      className="w-full p-4 pr-12 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-slate-50/50"
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
+                      km
+                    </span>
+                  </div>
+                </motion.div>
+
+                {/* Temps cible */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: 0.5 }}
+                  className="space-y-2"
+                >
+                  <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
                     <Clock className="h-4 w-4 text-indigo-500" />
-                    Jours disponibles
+                    Temps cible
                   </label>
                   <input
                     type="text"
-                    value={profile.availability}
-                    onChange={(e) => setProfile({ ...profile, availability: e.target.value })}
-                    placeholder="ex: lundi, mercredi, samedi"
+                    value={profile.targetTime || ''}
+                    onChange={(e) => setProfile({ ...profile, targetTime: e.target.value || undefined })}
+                    placeholder="ex: 25:00, 1:30:00"
+                    pattern="[0-9]:[0-5][0-9](:[0-5][0-9])?"
                     className="w-full p-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-slate-50/50"
                   />
+                  <p className="text-xs text-slate-400 mt-1">Format: MM:SS ou HH:MM:SS</p>
                 </motion.div>
               </div>
+
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.3, delay: 0.6 }}
+                className="space-y-2"
+              >
+                <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
+                  <Calendar className="h-4 w-4 text-indigo-500" />
+                  Jours disponibles
+                </label>
+                <input
+                  type="text"
+                  value={profile.availability}
+                  onChange={(e) => setProfile({ ...profile, availability: e.target.value })}
+                  placeholder="ex: lundi, mercredi, samedi"
+                  className="w-full p-4 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all bg-slate-50/50"
+                />
+              </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
