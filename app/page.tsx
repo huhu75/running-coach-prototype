@@ -6,7 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Footprints, Calendar, Target, Clock, Sparkles } from "lucide-react";
 import { UserProfile } from "@/lib/types";
 import Navbar from "@/components/Navbar";
+import ChatForm from "@/components/ChatForm";
 import { Button } from "@/components/ui/button";
+import { Bot } from "lucide-react";
 
 export default function Home() {
   const router = useRouter();
@@ -21,7 +23,17 @@ export default function Home() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [plans, setPlans] = useState<any[]>([]);
+  const [useChat, setUseChat] = useState(false);
   const formRef = useRef<HTMLDivElement>(null);
+
+  const handleChatComplete = (completedProfile: UserProfile) => {
+    setProfile(completedProfile);
+    // Déclencher la soumission du formulaire
+    setTimeout(() => {
+      const form = document.getElementById("generate-form") as HTMLFormElement | null;
+      form?.requestSubmit();
+    }, 100);
+  };
 
   useEffect(() => {
     const savedPlans: any[] = [];
@@ -127,23 +139,39 @@ export default function Home() {
 
       <section id="create" ref={formRef} className="py-16 bg-white/50">
         <div className="max-w-3xl mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-200/50"
-          >
-            <div className="mb-8">
-              <h2 className="text-3xl font-bold text-slate-800 mb-2">
-                Ton plan sur mesure
-              </h2>
-              <p className="text-slate-500">
-                Remplis ces informations pour generer ton plan en quelques secondes.
-              </p>
-            </div>
+          {useChat ? (
+            <ChatForm onComplete={handleChatComplete} isLoading={isLoading} onBack={() => setUseChat(false)} />
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-slate-200/50"
+            >
+              <div className="mb-8">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="text-3xl font-bold text-slate-800 mb-2">
+                      Ton plan sur mesure
+                    </h2>
+                    <p className="text-slate-500">
+                      Remplis ces informations pour générer ton plan en quelques secondes.
+                    </p>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setUseChat(true)}
+                    className="border-indigo-500/30 hover:bg-indigo-500/10"
+                  >
+                    <Bot className="h-4 w-4 mr-2" />
+                    Mode Chat
+                  </Button>
+                </div>
+              </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+              <form id="generate-form" onSubmit={handleSubmit} className="space-y-6">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -349,6 +377,7 @@ export default function Home() {
               </motion.div>
             </form>
           </motion.div>
+        )}
         </div>
       </section>
 
