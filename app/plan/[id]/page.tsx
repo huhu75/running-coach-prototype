@@ -180,7 +180,7 @@ export default function PlanPage() {
           </div>
         </motion.div>
 
-        {plan.conseils && plan.conseils.length > 0 && (
+        {(plan.conseils || []).length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -196,7 +196,7 @@ export default function PlanPage() {
               </h2>
             </div>
             <ul className="space-y-3">
-              {plan.conseils.map((conseil, index) => (
+              {(plan.conseils || []).map((conseil, index) => (
                 <motion.li
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
@@ -218,9 +218,9 @@ export default function PlanPage() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="space-y-4"
         >
-          {plan.semaines.map((semaine, index) => (
+          {(plan.semaines || []).map((semaine, index) => (
             <motion.div
-              key={semaine.numero}
+              key={semaine.numero || index}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.7 + index * 0.1 }}
