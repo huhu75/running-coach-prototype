@@ -394,18 +394,18 @@ export default function Home() {
                         <div className="flex justify-between items-start mb-4">
                           <div>
                             <h3 className="text-xl font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">
-                              {plan.objectif}
+                              {plan.nom_objectif || plan.objectif || "Mon plan"}
                             </h3>
                             <p className="text-sm text-slate-500 mt-1">
-                              Niveau: {plan.niveau}
+                              Niveau: {plan.niveau || "Inconnu"}
                             </p>
                           </div>
                           <span className="text-xs px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-600 font-medium">
-                            {plan.duree_semaines} semaines
+                            {plan.duree_semaines || 0} semaines
                           </span>
                         </div>
                         <p className="text-sm text-slate-600 line-clamp-2">
-                          {plan.semaines.length} semaines d&apos;entrainement avec {plan.semaines.reduce((acc: number, semaine: any) => acc + semaine.workouts.length, 0)} seances au total.
+                          {(plan.semaines || []).length} semaines d&apos;entrainement avec {(plan.semaines || []).reduce((acc: number, semaine: any) => acc + (semaine.workouts?.length || 0), 0)} seances au total.
                         </p>
                       </div>
                     </div>
