@@ -61,10 +61,10 @@ export default function PlanCard({ week }: PlanCardProps) {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-slate-800">
-                {week.objectif}
+                {week.objectif || "Objectif non défini"}
               </h3>
               <p className="text-sm text-slate-500">
-                {week.workouts.length} seances
+                {(week.workouts || []).length} seances
               </p>
             </div>
           </motion.div>
@@ -95,9 +95,9 @@ export default function PlanCard({ week }: PlanCardProps) {
               transition={{ duration: 0.3, delay: 0.1 }}
               className="p-6 pt-0 space-y-4"
             >
-              {week.workouts.map((workout, index) => {
-                const type = typeConfig[workout.type as keyof typeof typeConfig];
-                const intensity = intensityConfig[workout.intensite as keyof typeof intensityConfig];
+              {(week.workouts || []).map((workout, index) => {
+                const type = typeConfig[(workout.type as keyof typeof typeConfig) || "endurance"];
+                const intensity = intensityConfig[(workout.intensite as keyof typeof intensityConfig) || "facile"];
                 const TypeIcon = type.icon;
                 const IntensityIcon = intensity.icon;
                 const typeColor = type.color as ColorKey;
@@ -105,7 +105,7 @@ export default function PlanCard({ week }: PlanCardProps) {
 
                 return (
                   <motion.div
-                    key={workout.id}
+                    key={workout.id || index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.2, delay: index * 0.1 }}
@@ -120,27 +120,27 @@ export default function PlanCard({ week }: PlanCardProps) {
                           </div>
                           <div>
                             <h4 className="font-semibold text-slate-800">
-                              {workout.titre}
+                              {workout.titre || "Séance sans titre"}
                             </h4>
                             <div className="flex items-center gap-2 mt-1">
                               <span className={`text-xs px-2 py-0.5 rounded-full ${colorClasses[intensityColor]}`}>
                                 <IntensityIcon className="h-3 w-3 inline mr-1" />
-                                {intensity.label}
+                                {intensity.label || "Facile"}
                               </span>
                             </div>
                           </div>
                         </div>
                         <p className="text-sm text-slate-600 ml-11">
-                          {workout.description}
+                          {workout.description || "Aucune description"}
                         </p>
                         <div className="flex items-center gap-4 mt-3 text-sm text-slate-500 ml-11 flex-wrap">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-4 w-4" />
-                            {workout.jour}
+                            {workout.jour || "Non spécifié"}
                           </span>
                           <span className="flex items-center gap-1">
                             <Clock className="h-4 w-4" />
-                            {workout.duree_minutes} min
+                            {workout.duree_minutes || 0} min
                           </span>
                           {workout.distance_km && (
                             <span className="flex items-center gap-1">
