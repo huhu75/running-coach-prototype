@@ -49,7 +49,7 @@ export default function Navbar() {
               className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
             >
               <Settings className="h-4 w-4" />
-              Paramètres
+              Réglages
             </Link>
           </div>
 

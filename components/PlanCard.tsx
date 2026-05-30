@@ -11,13 +11,13 @@ type PlanCardProps = {
 
 const intensityConfig = {
   facile: { color: "green" as const, icon: Moon, label: "Facile" },
-  moderee: { color: "yellow" as const, icon: Footprints, label: "Moderee" },
-  elevee: { color: "red" as const, icon: Zap, label: "Elevee" },
+  moderee: { color: "yellow" as const, icon: Footprints, label: "Modérée" },
+  elevee: { color: "red" as const, icon: Zap, label: "Élevée" },
 };
 
 const typeConfig = {
   endurance: { icon: Footprints, color: "indigo" as const, label: "Endurance" },
-  fractionne: { icon: Zap, color: "purple" as const, label: "Fractionne" },
+  fractionne: { icon: Zap, color: "purple" as const, label: "Fractionné" },
   seuil: { icon: Flame, color: "orange" as const, label: "Seuil" },
   repos: { icon: Moon, color: "slate" as const, label: "Repos" },
 };
@@ -64,7 +64,7 @@ export default function PlanCard({ week }: PlanCardProps) {
                 {week.objectif || "Objectif non défini"}
               </h3>
               <p className="text-sm text-slate-500">
-                {(week.workouts || []).length} seances
+                {(week.workouts || []).length} séances
               </p>
             </div>
           </motion.div>

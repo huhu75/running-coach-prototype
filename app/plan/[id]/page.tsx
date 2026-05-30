@@ -107,7 +107,7 @@ export default function PlanPage() {
                   )}
                   {plan.duree_semaines && (
                     <p className="text-lg text-slate-600 mt-1">
-                      Plan d&apos;entrainement sur {plan.duree_semaines} semaines
+                      Plan d&apos;entraînement sur {plan.duree_semaines} semaines
                     </p>
                   )}
                 </div>

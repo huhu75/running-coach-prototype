@@ -1,11 +1,25 @@
+export type ObjectiveType = 
+  | "perte_poids"
+  | "remise_forme"
+  | "finir_distance"
+  | "battre_chrono";
+
 export type UserProfile = {
   level: "debutant" | "intermediaire" | "avance";
+  levelDetails?: string; // Détails supplémentaires sur le niveau
+  objectiveType: ObjectiveType;
   objectiveName: string;
-  targetDate: string;
+  targetDate?: string;
+  dureeSemaines: number;
   sessionsPerWeek: number;
   targetTime?: string; // Format: "HH:MM:SS" ou "MM:SS"
   targetDistance?: number; // en km
   availability: string;
+  vma?: number; // Vitesse Maximale Aérobie en km/h
+  fcMax?: number; // Fréquence Cardiaque Maximale
+  allure5km?: string; // Format: "MM:SS" par km
+  allure10km?: string; // Format: "MM:SS" par km
+  douleurs?: string; // Douleurs ou antécédents médicaux
 };
 
 export type Workout = {
